@@ -1,33 +1,44 @@
 const express = require('express');
-const sql = require('mssql');
+const mysql = require('mysql2/promise');
+const cors = require('cors'); // Adicione esta linha
 const app = express();
 const port = 3000;
 
 const config = {
-  user: 'seu_usuario',
-  password: 'sua_senha',
-  server: 'seu_servidor.database.windows.net',
-  database: 'seu_banco_de_dados',
-  options: {
-    encrypt: true
-  }
+  host: 'database.cd2mma0w2q5w.us-east-2.rds.amazonaws.com',
+  user: 'kateriny',
+  password: 'Sucodeuva123!',
+  database: 'databasetest',
+  port: 3306
 };
 
-sql.connect(config).then(pool => {
-  if (pool.connected) {
+// Use o middleware CORS
+app.use(cors()); // Adicione esta linha
+
+async function connectToDatabase() {
+  try {
+    const connection = await mysql.createConnection(config);
     console.log('Conectado ao banco de dados');
+    return connection;
+  } catch (err) {
+    console.error('Erro ao conectar ao banco de dados:', err);
   }
+}
 
-  app.get('/dados', async (req, res) => {
-    try {
-      const result = await pool.request().query('SELECT * FROM sua_tabela');
-      res.json(result.recordset);
-    } catch (err) {
-      res.status(500).send(err.message);
-    }
-  });
+app.get('/dados', async (req, res) => {
+  const connection = await connectToDatabase();
+  if (!connection) return res.status(500).send('Erro ao conectar ao banco de dados');
 
-  app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-  });
-}).catch(err => console.log(err));
+  try {
+    const [rows] = await connection.execute('SELECT * FROM InfoCCP');
+    res.json(rows); // Certifique-se de que está retornando JSON
+  } catch (err) {
+    res.status(500).send(err.message);
+  } finally {
+    connection.end();
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+});
