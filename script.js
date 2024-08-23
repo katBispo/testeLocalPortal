@@ -19,6 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
         row.insertCell(5).textContent = new Date(item.dataCadastro).toLocaleDateString();
         row.insertCell(6).textContent = new Date(item.previsaoRetirada).toLocaleDateString();
         row.insertCell(7).textContent = new Date(item.ultimaMudanca).toLocaleDateString();
+
+        // Calcular a diferença de dias
+        const dataCadastro = new Date(item.dataCadastro);
+        const previsaoRetirada = new Date(item.previsaoRetirada);
+        const diffTime = Math.abs(previsaoRetirada - dataCadastro);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        row.insertCell(8).textContent = diffDays; // Adicionar a diferença de dias na nova coluna
       });
     })
     .catch(error => console.error('Erro ao buscar dados:', error));
