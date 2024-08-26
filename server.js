@@ -8,7 +8,7 @@ const config = {
   host: 'database.cd2mma0w2q5w.us-east-2.rds.amazonaws.com',
   user: 'kateriny',
   password: 'Sucodeuva123!',
-  database: 'databasetest',
+  database: 'database',
   port: 3306
 };
 

@@ -4,7 +4,7 @@ const config = {
   host: 'database.cd2mma0w2q5w.us-east-2.rds.amazonaws.com',
   user: 'kateriny',
   password: 'Sucodeuva123!',
-  database: 'databasetest', // Nome do banco de dados
+  database: 'database', // Nome do banco de dados
   port: 3306,
   connectTimeout: 30000 // Aumentar o tempo de conexão para 30 segundos
 };

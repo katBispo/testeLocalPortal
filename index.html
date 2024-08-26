@@ -1,28 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dados da InfoCCP</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página CCP</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="styleHome.css">
 </head>
+
 <body>
-  <table id="dados-tabela">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Descrição</th>
-        <th>Setor</th>
-        <th>Status</th>
-        <th>Responsável</th>
-        <th>Data de Cadastro</th>
-        <th>Previsão de Retirada</th>
-        <th>Última Mudança</th>
-        <th>Número de Dias Ativo</th> <!-- Nova coluna -->
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <script src="script.js"></script>
+
+    <div class="header">
+        <img src="vale-logo-1.svg" alt="Icone Vale">
+        <span class="title">Restrições CCP</span>
+    </div>
+
+    <div class="ccp-container">
+        <button>CCP-TFPM</button>
+        <button>CCP-ACD</button>
+        <button>CCP-TFCJ</button>
+        <button>CCP-TFSP</button>
+        <button>CCP-CG-SLS</button>
+        <button>CMPN-EFC</button>
+        <button>CCP-TERMINAIS</button>
+        <button>CCP-OEM</button>
+        <button>CCP-MBA</button>
+        <button>CCP-PBA</button>
+    </div>
+
+    <div class="title">
+        CCP ESCOLHIDO
+    </div>
+
+    <div class="filters">
+        <div>
+            <button onclick="abrirOverlayFiltro()">Filtrar</button>
+            <button>Limpar</button>
+            <button onclick="abrirOverlayExport()">Exportar</button>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="dados-tabela">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descrição</th>
+                    <th>Setor</th>
+                    <th>Status</th>
+                    <th>Responsável</th>
+                    <th>Data de Cadastro</th>
+                    <th>Previsão de Retirada</th>
+                    <th>Última Mudança</th>
+                    <th>Número de Dias Ativo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Exemplo de dados para a tabela -->
+                <tr>
+                    <td>1</td>
+                    <td>Descrição 1</td>
+                    <td>Setor 177</td>
+                    <td>Ativo</td>
+                    <td>Responsável 1</td>
+                    <td>01/01/2024</td>
+                    <td>10/01/2024</td>
+                    <td>05/01/2024</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>Manutenção de sistemas</td>
+                    <td>Setor 389</td>
+                    <td>Ativo</td>
+                    <td>Leonardo Santos</td>
+                    <td>20/01/2024</td>
+                    <td>29/01/2024</td>
+                    <td>24/01/2024</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Manutenção de via</td>
+                    <td>Setor 177</td>
+                    <td>Ativo</td>
+                    <td>Maria Silva</td>
+                    <td>01/01/2024</td>
+                    <td>10/01/2024</td>
+                    <td>05/01/2024</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Inspeção de segurança</td>
+                    <td>Setor 23</td>
+                    <td>Ativo</td>
+                    <td>João Souza</td>
+                    <td>02/01/2024</td>
+                    <td>11/01/2024</td>
+                    <td>06/01/2024</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Reparação de equipamento</td>
+                    <td>Setor 45</td>
+                    <td>Ativo</td>
+                    <td>Ana Costa</td>
+                    <td>03/01/2024</td>
+                    <td>12/01/2024</td>
+                    <td>07/01/2024</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Limpeza de área</td>
+                    <td>Setor 67</td>
+                    <td>Ativo</td>
+                    <td>Carlos Lima</td>
+                    <td>04/01/2024</td>
+                    <td>13/01/2024</td>
+                    <td>08/01/2024</td>
+                    <td>12</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Verificação de estoque</td>
+                    <td>Setor 89</td>
+                    <td>Ativo</td>
+                    <td>Fernanda Alves</td>
+                    <td>05/01/2024</td>
+                    <td>14/01/2024</td>
+                    <td>09/01/2024</td>
+                    <td>13</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Atualização de software</td>
+                    <td>Setor 101</td>
+                    <td>Ativo</td>
+                    <td>Pedro Santos</td>
+                    <td>06/01/2024</td>
+                    <td>15/01/2024</td>
+                    <td>10/01/2024</td>
+                    <td>14</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Treinamento de equipe</td>
+                    <td>Setor 123</td>
+                    <td>Ativo</td>
+                    <td>Mariana Rocha</td>
+                    <td>07/01/2024</td>
+                    <td>16/01/2024</td>
+                    <td>11/01/2024</td>
+                    <td>15</td>
+                </tr>
+                
+                <!-- Adicione mais linhas conforme necessário -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="overlay" id="filterOverlay">
+        <div class="overlay-content">
+            <h3>Filtrar por Setor</h3>
+            <div class="search-bar">
+                <input type="text" id="searchInput" onkeyup="filtrarOpcoes()" placeholder="Pesquisar setor...">
+            </div>
+            <div class="filter-options" id="filterOptions">
+                <!-- As opções de filtro serão geradas dinamicamente aqui -->
+            </div>
+            <button onclick="aplicarFiltro()">Aplicar Filtro</button>
+            <button onclick="fecharOverlay()">Cancelar</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="exportOverlay">
+        <div class="overlay-content">
+            <button onclick="exportarParaExcel()">Exportar para Excel</button>
+            <button onclick="exportarParaCSV()">Exportar para CSV</button>
+            <button onclick="fecharOverlay()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        function abrirOverlayFiltro() {
+            document.getElementById('filterOverlay').style.display = 'flex';
+        }
+
+        function abrirOverlayExport() {
+            document.getElementById('exportOverlay').style.display = 'flex';
+        }
+
+        function fecharOverlay() {
+            document.getElementById('filterOverlay').style.display = 'none';
+            document.getElementById('exportOverlay').style.display = 'none';
+        }
+
+        function filtrarOpcoes() {
+            var input = document.getElementById('searchInput');
+            var filter = input.value.toLowerCase();
+            var div = document.getElementById('filterOptions');
+            div.innerHTML = ''; // Limpa as opções anteriores
+
+            if (filter) {
+                var tabela = document.getElementById('dados-tabela');
+                var setores = new Set();
+                for (var i = 1; i < tabela.rows.length; i++) {
+                    var setor = tabela.rows[i].cells[2].innerText;
+                    if (setor.toLowerCase().includes(filter)) {
+                        setores.add(setor);
+                    }
+                }
+
+                setores.forEach(function(setor) {
+                    var label = document.createElement('label');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = setor;
+                    label.appendChild(checkbox);
+                    label.appendChild(document.createTextNode(setor));
+                    div.appendChild(label);
+                    div.appendChild(document.createElement('br'));
+                });
+            }
+        }
+
+        function aplicarFiltro() {
+            var tabela = document.getElementById('dados-tabela');
+            var checkboxes = document.querySelectorAll('#filterOptions input[type="checkbox"]');
+            var setoresSelecionados = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+
+            for (var i = 1; i < tabela.rows.length; i++) {
+                var setor = tabela.rows[i].cells[2].innerText;
+                tabela.rows[i].style.display = setoresSelecionados.length === 0 || setoresSelecionados.includes(setor) ? '' : 'none';
+            }
+
+            fecharOverlay();
+        }
+
+        function exportarParaExcel() {
+            var tabela = document.getElementById('dados-tabela');
+            var wb = XLSX.utils.table_to_book(tabela, { sheet: "Sheet1" });
+            XLSX.writeFile(wb, 'tabela.xlsx');
+            fecharOverlay();
+        }
+
+        function exportarParaCSV() {
+            var tabela = document.getElementById('dados-tabela');
+            var csv = XLSX.utils.sheet_to_csv(XLSX.utils.table_to_sheet(tabela));
+            var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            var link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = 'tabela.csv';
+            link.click();
+            fecharOverlay();
+        }
+    </script>
 </body>
+
 </html>
